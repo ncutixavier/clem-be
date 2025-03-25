@@ -1,0 +1,39 @@
+# 🐍 Python-related
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*$py.class
+
+# 🔥 Virtual environment
+venv/
+.env
+.env.local
+
+# 🛢️ Database & Migrations
+alembic/versions/
+*.sqlite3
+*.db
+
+# 📝 Logs & Debugging
+logs/
+*.log
+*.bak
+*.swp
+*.tmp
+
+# 🏗️ Build artifacts
+dist/
+build/
+*.egg-info/
+
+# 🖥️ Editor & OS-specific files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# 🚀 FastAPI & Dependencies
+__pycache__/
+*.pytest_cache/
+*.mypy_cache/

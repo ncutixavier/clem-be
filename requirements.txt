@@ -1,0 +1,8 @@
+# mkdir app app/models app/schemas app/crud app/services app/routes
+# touch app/{__init__,main,config,database,dependencies}.py
+# touch app/models/{__init__,user,leave}.py
+# touch app/schemas/{__init__,user,leave}.py
+# touch app/crud/{__init__,user,leave}.py
+# touch app/services/{__init__,user_service,leave_service}.py
+# touch app/routes/{__init__,user,leave}.py
+# touch .env requirements.txt README.md
