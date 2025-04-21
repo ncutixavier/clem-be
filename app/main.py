@@ -1,8 +1,10 @@
 from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
 from sqlalchemy import text
+from fastapi.middleware.cors import CORSMiddleware
+from .routes import auth, user
+from .database import engine, get_db, Base
 
-from .database import engine, get_db
 from .config import settings
 from .models import Base
 
@@ -10,14 +12,60 @@ from .models import Base
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    title=settings.PROJECT_NAME,
-    openapi_url=f"{settings.API_V1_STR}/openapi.json"
+    title="CLEM - Company Leave & Employee Management System",
+    description="""
+    CLEM (Company Leave & Employee Management System) is a comprehensive solution for managing:
+    
+    * Employee leaves and attendance
+    * Company policies and settings
+    * Role-based access control
+    * Employee information and profiles
+    
+    ## Features
+    * Authentication and Authorization
+    * Leave Request Management
+    * Employee Profile Management
+    * Company Settings Management
+    * Role-Based Access Control
+    """,
+    version="1.0.0",
+    docs_url="/api/docs",
+    redoc_url="/api/redoc",
+    openapi_url="/api/openapi.json"
 )
 
+# Configure CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # In production, replace with specific origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-@app.get('/')
-def root():
-    return {"message": "Welcome to CLEM Application System!"}
+# Include routers
+app.include_router(auth.router)
+app.include_router(user.router)
+
+
+@app.get("/")
+async def root():
+    return {
+        "name": "CLEM",
+        "full_name": "Company Leave & Employee Management System",
+        "version": "1.0.0",
+        "description": "A comprehensive solution for managing company leaves and employee data",
+        "documentation": {
+            "swagger": "/api/docs",
+            "redoc": "/api/redoc"
+        },
+        "endpoints": {
+            "auth": "/api/v1/auth",
+            "users": "/api/v1/users",
+            "leaves": "/api/v1/leaves",
+            "companies": "/api/v1/companies"
+        }
+    }
 
 
 @app.get("/test-db")
