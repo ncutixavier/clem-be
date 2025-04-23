@@ -22,8 +22,10 @@ def create_user(db: Session, user_in: UserCreate) -> User:
         email=user_in.email,
         hashed_password=get_password_hash(user_in.password),
         full_name=user_in.full_name,
-        role=user_in.role,
-        company_id=user_in.company_id
+        # Set role with default as employee if not provided
+        role=user_in.role if user_in.role is not None else UserRole.EMPLOYEE,
+        # every user must have company id except super admin
+        company_id=None if user_in.role == UserRole.SUPER_ADMIN else user_in.company_id
     )
     db.add(db_user)
     db.commit()

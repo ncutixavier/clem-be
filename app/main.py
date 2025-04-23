@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
 from sqlalchemy import text
 from fastapi.middleware.cors import CORSMiddleware
-from .routes import auth, user
+from .routes import auth, user, company
 from .database import engine, get_db, Base
 
 from .config import settings
@@ -46,6 +46,7 @@ app.add_middleware(
 # Include routers
 app.include_router(auth.router)
 app.include_router(user.router)
+app.include_router(company.router)
 
 
 @app.get("/")

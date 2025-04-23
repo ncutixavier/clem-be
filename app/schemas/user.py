@@ -1,7 +1,7 @@
 from pydantic import BaseModel, EmailStr, constr, Field
 from typing import Optional
 from ..models.user import UserRole
-
+from datetime import datetime
 
 class UserBase(BaseModel):
     email: EmailStr
@@ -42,6 +42,8 @@ class TokenData(BaseModel):
 class UserResponse(UserBase):
     id: int
     is_active: bool
+    created_at: datetime
+    updated_at: datetime
 
     class Config:
         from_attributes = True

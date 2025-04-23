@@ -1,6 +1,7 @@
-from sqlalchemy import Column, Integer, String, Boolean, Enum
+from sqlalchemy import Column, Integer, String, Boolean, Enum, DateTime, ForeignKey
 import enum
 from ..database import Base
+from datetime import datetime
 
 
 class UserRole(str, enum.Enum):
@@ -19,4 +20,7 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     full_name = Column(String)
     role = Column(Enum(UserRole), default=UserRole.EMPLOYEE)
-    company_id = Column(Integer, nullable=True)  # For company-specific users
+    # every user must have company id except super admin
+    company_id = Column(Integer, ForeignKey("companies.id"), nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow)
